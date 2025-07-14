@@ -6,9 +6,16 @@
   margin: 0 auto;
   border-bottom: 1px solid $color-gray-100;
   padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;            // da bude iznad ostalog sadržaja
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+
 }
 
-.navSection {
+.navSection { 
   display: flex;
   align-items: center;
   justify-content: center;
