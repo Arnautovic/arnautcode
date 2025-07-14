@@ -178,9 +178,13 @@ const Nav = () => {
     <nav className={styles.nav}>
       <Section className={styles.navSection}>
         <p className={styles.navName}>
-          <Link href="/">{title}</Link>
           <Link href="/">
-          <img src="/arnautcode-logo-min.svg" alt="Arnautcode logo" className={styles.navLogo} />
+            <img
+              src="/arnautcode-logo-min.svg"
+              alt="Arnautcode logo"
+              alt={`${title} logo`}
+              className={styles.navLogo}
+            />
           </Link>
         </p>
         <ul className={styles.navMenu}>
