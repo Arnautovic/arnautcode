@@ -181,7 +181,7 @@ const Nav = () => {
           <Link href="/">{title}</Link>
           <Link href="/">
           <img src="/arnautcode-logo-min.svg" alt="Arnautcode logo" className={styles.navLogo} />
-        </Link>
+          </Link>
         </p>
         <ul className={styles.navMenu}>
           {navigation?.map((listItem) => {
