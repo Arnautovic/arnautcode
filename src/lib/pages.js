@@ -16,17 +16,6 @@ import {
 export function pagePathBySlug(slug) {
   return `/${slug}`;
 }
-
-export async function getPageBySlug(slug) {
-  const apolloClient = getApolloClient();
-  const { data } = await apolloClient.query({
-    query: QUERY_PAGE_BY_SLUG,
-    variables: { slug },
-  });
-  if (!data.page) return { page: null };
-  return { page: mapPageData(data.page) };
-}
-
 /**
  * getPageByUri
  */
@@ -217,4 +206,21 @@ export function getBreadcrumbsByUri(uri, pages) {
   breadcrumbs.reverse();
 
   return breadcrumbs;
+}
+
+export async function getPageBySlug(slug) {
+  const apolloClient = getApolloClient();
+  let data;
+  try {
+    const result = await apolloClient.query({
+      query: QUERY_PAGE_BY_SLUG,
+      variables: { slug },
+    });
+    data = result.data;
+  } catch (e) {
+    console.error(`[pages][getPageBySlug] Failed to query by slug "${slug}": ${e.message}`);
+    return { page: null };
+  }
+  if (!data.page) return { page: null };
+  return { page: mapPageData(data.page) };
 }
