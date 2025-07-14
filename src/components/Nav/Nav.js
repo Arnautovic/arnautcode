@@ -19,7 +19,7 @@ const Nav = () => {
 
   // Mobile menu open state
   const [mobileOpen, setMobileOpen] = useState(false);
-  const toggleMobileMenu = () => setMobileOpen(o => !o);
+  const toggleMobileMenu = () => setMobileOpen((o) => !o);
 
   const { metadata = {}, menus } = useSite();
   const { title } = metadata;
@@ -179,7 +179,7 @@ const Nav = () => {
     <nav className={styles.nav}>
       <Section className={styles.navSection}>
         <p className={styles.navName}>
-          <Link href="/"> 
+          <Link href="/">
             <img src="/arnautcode-logo-min.svg" alt={`${title} logo`} className={styles.navLogo} />
           </Link>
         </p>
