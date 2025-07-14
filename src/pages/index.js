@@ -1,5 +1,6 @@
 import useSite from 'hooks/use-site';
 import { getPaginatedPosts } from 'lib/posts';
+import { getPageByUri } from 'lib/pages';
 import { WebsiteJsonLd } from 'lib/json-ld';
 
 import Layout from 'components/Layout';
@@ -15,14 +16,13 @@ export default function Home({ posts, pagination, homePage }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
 
-  // Povuci ACF podatke iz homePage (pocetnastranafields)
+  // Povuci hero podatke iz homePage (ACF)
   const hero = homePage?.pocetnastranafields;
 
   return (
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
       <Header>
-        {/* Prikaži ACF naslov, tekst, sliku */}
         {hero && (
           <div className="flex flex-col items-center mb-8">
             {hero.heroImage?.node?.sourceUrl && (
@@ -43,7 +43,7 @@ export default function Home({ posts, pagination, homePage }) {
           </div>
         )}
 
-        {/* Prikaži stari title/description */}
+        {/* Možeš izbaciti title/desc ako ne želiš duplikat */}
         <h1
           dangerouslySetInnerHTML={{
             __html: title,
@@ -56,18 +56,16 @@ export default function Home({ posts, pagination, homePage }) {
           }}
         />
       </Header>
-      {/* Ostatak ostaje kao što već imaš */}
+
       <Section>
         <Container>
           <h2 className="sr-only">Posts</h2>
           <ul className={styles.posts}>
-            {posts.map((post) => {
-              return (
-                <li key={post.slug}>
-                  <PostCard post={post} />
-                </li>
-              );
-            })}
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <PostCard post={post} />
+              </li>
+            ))}
           </ul>
           {pagination && (
             <Pagination
@@ -83,19 +81,11 @@ export default function Home({ posts, pagination, homePage }) {
   );
 }
 
-
-import { getPaginatedPosts } from 'lib/posts';
-import { getPageByUri } from 'lib/pages'; // Dodaj ovaj import
-
 export async function getStaticProps() {
-  // Fetch posts (kao do sada)
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
-
-  // Fetch home (pocetna-strana) sa ACF poljima
   const { page: homePage } = await getPageByUri('/pocetna-strana/');
-
   return {
     props: {
       posts,
@@ -103,8 +93,7 @@ export async function getStaticProps() {
         ...pagination,
         basePath: '/posts',
       },
-      homePage: homePage || null, // Dodaj homePage kao prop
+      homePage: homePage || null,
     },
   };
 }
-
