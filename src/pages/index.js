@@ -13,6 +13,10 @@ import Pagination from 'components/Pagination';
 import styles from 'styles/pages/Home.module.scss';
 
 export default function Home({ posts, pagination, page }) {
+  useEffect(() => {
+    console.log('🏷️ page props:', page);
+    console.log('🏷️ page.pocetna:', page?.pocetna);
+  }, [page]);
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
   const { title: heroTitle, text: heroText, imageUrl: heroImageUrl } = page?.pocetna || {};
