@@ -129,9 +129,9 @@ export const QUERY_PAGE_BY_URI = gql`
   }
 `;
 
-export const QUERY_PAGE_BY_SLUG = gql`
-  query PageBySlug($slug: String!) {
-    page(id: $slug, idType: SLUG) {
+export const QUERY_PAGE_BY_URI = gql`
+  query PageByUri($uri: ID!) {
+    page(id: $uri, idType: URI) {
       id
       slug
       uri
@@ -145,6 +145,18 @@ export const QUERY_PAGE_BY_SLUG = gql`
             sourceUrl
           }
         }
+      }
+      featuredImage {
+        node {
+          altText
+          sourceUrl
+          # po potrebi i ostali fields
+        }
+      }
+      menuOrder
+      parent { node { id slug uri title } }
+      children {
+        edges { node { id slug uri title } }
       }
     }
   }
