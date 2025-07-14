@@ -41,6 +41,10 @@ export async function getPageByUri(uri) {
 
   if (!pageData?.data.page) return { page: undefined };
 
+  
+    // Ako stranica ne postoji
+  if (!pageData?.data.page) return { page: undefined };
+
   // Sačuvaj rawPage za kasniju upotrebu (ACF polja)
   const rawPage = pageData.data.page;
 
@@ -55,8 +59,6 @@ export async function getPageByUri(uri) {
   } else {
     page.acf.heroImage = {};
   }
-  // If the SEO plugin is enabled, look up the data
-  // and apply it to the default settings
 
   if (process.env.WORDPRESS_PLUGIN_SEO === true) {
     try {
