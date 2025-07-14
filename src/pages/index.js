@@ -68,17 +68,4 @@ export default function Home({page, posts, pagination }) {
   );
 }
 
-export async function getStaticProps() {
-  const { posts, pagination } = await getPaginatedPosts({
-    queryIncludes: 'archive',
-  });
-  return {
-    props: {
-      posts,
-      pagination: {
-        ...pagination,
-        basePath: '/posts',
-      },
-    },
-  };
-}
+
