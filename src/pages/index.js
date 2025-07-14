@@ -68,18 +68,21 @@ export default function Home({ posts, pagination, page }) {
 }
 
 export async function getStaticProps() {
+  // 1) Учитамо постове
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
 
+  // 2) Прво тражимо "/" по URI
   let { page } = await getPageByUri('/');
 
+  // 3) Ако нема page, фоллбек на slug "pocetna-strana"
   if (!page) {
     console.warn('Page "/" not found, falling back to slug "pocetna-strana"');
-    const fallback = await getPageBySlug('pocetna-strana');
-    ({ page } = fallback);
+    ({ page } = await getPageBySlug('pocetna-strana'));
   }
 
+  // 4) Уклонити све undefined вредности
   const cleanPage = page ? JSON.parse(JSON.stringify(page)) : null;
 
   return {
