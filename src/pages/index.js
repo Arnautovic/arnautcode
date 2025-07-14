@@ -3,7 +3,6 @@ import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
 import { getPageByUri, getPageBySlug } from 'lib/pages';
 
-
 import Layout from 'components/Layout';
 import Header from 'components/Header';
 import Section from 'components/Section';
