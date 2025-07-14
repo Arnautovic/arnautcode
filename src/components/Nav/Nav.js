@@ -190,7 +190,7 @@ const Nav = () => {
         <button
           className={styles.mobileToggle}
           onClick={toggleMobileMenu}
-          aria-label="Toggle navigation">
+          aria-label="Toggle navigation Arnautcode">
           {mobileOpen ? <FaTimes /> : <FaBars />}
         </button>
         <ul className={`${styles.navMenu} ${mobileOpen ? styles.open : ''}`}>
