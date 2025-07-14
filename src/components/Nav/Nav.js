@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { FaSearch } from 'react-icons/fa';
 import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
 
 
