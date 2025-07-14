@@ -63,6 +63,9 @@ export async function getStaticProps() {
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
+
+  const { page } = await getPageByUri('/');
+
   return {
     props: {
       posts,
@@ -70,6 +73,7 @@ export async function getStaticProps() {
         ...pagination,
         basePath: '/posts',
       },
+      page,
     },
   };
 }
