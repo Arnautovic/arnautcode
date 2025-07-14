@@ -8,10 +8,16 @@ import Section from 'components/Section';
 import Container from 'components/Container';
 import PostCard from 'components/PostCard';
 import Pagination from 'components/Pagination';
-
 import styles from 'styles/pages/Home.module.scss';
+import { getPageByUri } from 'data/pages';
+export async function getStaticProps() {
+  const { page } = await getPageByUri('/');
+  return {
+    props: { page },
+  };
+}
 
-export default function Home({ posts, pagination }) {
+export default function Home({page, posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
   const { heroTitle, heroText, heroImage } = page.acf;
@@ -20,17 +26,13 @@ export default function Home({ posts, pagination }) {
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
       <Header>
+        {heroTitle && <h1>{heroTitle}</h1>}
+        {heroText && <p>{heroText}</p>}
         <h1
           dangerouslySetInnerHTML={{
             __html: title,
           }}
         />
-
- <h1>{heroTitle}</h1>
-      <p>{heroText}</p>
-      {heroImage?.sourceUrl && (
-        <img src={heroImage.sourceUrl} alt={heroTitle} />
-      )}
 
         <p
           className={styles.description}
