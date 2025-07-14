@@ -11,20 +11,44 @@ import Pagination from 'components/Pagination';
 
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ posts, pagination }) {
+export default function Home({ posts, pagination, homePage }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
+
+  // Povuci ACF podatke iz homePage (pocetnastranafields)
+  const hero = homePage?.pocetnastranafields;
 
   return (
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
       <Header>
+        {/* Prikaži ACF naslov, tekst, sliku */}
+        {hero && (
+          <div className="flex flex-col items-center mb-8">
+            {hero.heroImage?.node?.sourceUrl && (
+              <img
+                src={hero.heroImage.node.sourceUrl}
+                alt="Hero"
+                className="w-32 h-32 object-cover rounded-full mb-4"
+              />
+            )}
+            <h1
+              className="text-3xl font-bold text-center"
+              dangerouslySetInnerHTML={{ __html: hero.heroTitle }}
+            />
+            <div
+              className="text-lg text-center mt-2"
+              dangerouslySetInnerHTML={{ __html: hero.heroText }}
+            />
+          </div>
+        )}
+
+        {/* Prikaži stari title/description */}
         <h1
           dangerouslySetInnerHTML={{
             __html: title,
           }}
         />
-
         <p
           className={styles.description}
           dangerouslySetInnerHTML={{
@@ -32,7 +56,7 @@ export default function Home({ posts, pagination }) {
           }}
         />
       </Header>
-
+      {/* Ostatak ostaje kao što već imaš */}
       <Section>
         <Container>
           <h2 className="sr-only">Posts</h2>
@@ -59,10 +83,19 @@ export default function Home({ posts, pagination }) {
   );
 }
 
+
+import { getPaginatedPosts } from 'lib/posts';
+import { getPageByUri } from 'lib/pages'; // Dodaj ovaj import
+
 export async function getStaticProps() {
+  // Fetch posts (kao do sada)
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
+
+  // Fetch home (pocetna-strana) sa ACF poljima
+  const { page: homePage } = await getPageByUri('/pocetna-strana/');
+
   return {
     props: {
       posts,
@@ -70,6 +103,8 @@ export async function getStaticProps() {
         ...pagination,
         basePath: '/posts',
       },
+      homePage: homePage || null, // Dodaj homePage kao prop
     },
   };
 }
+
