@@ -83,6 +83,7 @@ export async function getStaticProps() {
     queryIncludes: 'archive',
   });
   const { page: homePage } = await getPageByUri('/pocetna-strana/');
+  console.log("SSR homePage", homePage);
   return {
     props: {
       posts,
