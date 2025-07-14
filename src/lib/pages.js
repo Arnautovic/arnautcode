@@ -6,7 +6,6 @@ import {
   QUERY_ALL_PAGES,
   QUERY_PAGE_BY_URI,
   QUERY_PAGE_SEO_BY_URI,
-  QUERY_PAGE_BY_SLUG,
 } from 'data/pages';
 
 /**
@@ -16,6 +15,7 @@ import {
 export function pagePathBySlug(slug) {
   return `/${slug}`;
 }
+
 /**
  * getPageByUri
  */
@@ -123,14 +123,6 @@ export async function getAllPages(options = {}) {
   });
 
   const pages = data?.data.pages.edges.map(({ node = {} }) => node).map(mapPageData);
-  if (data.pocetnastranafields) {
-    const { heroTitle, heroText, heroImage } = data.pocetnastranafields;
-    data.pocetna = {
-      title: heroTitle,
-      text: heroText,
-      imageUrl: heroImage?.node?.sourceUrl || null,
-    };
-  }
 
   return {
     pages,
@@ -214,21 +206,4 @@ export function getBreadcrumbsByUri(uri, pages) {
   breadcrumbs.reverse();
 
   return breadcrumbs;
-}
-
-export async function getPageBySlug(slug) {
-  const apolloClient = getApolloClient();
-  let data;
-  try {
-    const result = await apolloClient.query({
-      query: QUERY_PAGE_BY_SLUG,
-      variables: { slug },
-    });
-    data = result.data;
-  } catch (e) {
-    console.error(`[pages][getPageBySlug] Failed to query by slug "${slug}": ${e.message}`);
-    return { page: null };
-  }
-  if (!data.page) return { page: null };
-  return { page: mapPageData(data.page) };
 }

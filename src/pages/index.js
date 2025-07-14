@@ -1,7 +1,6 @@
 import useSite from 'hooks/use-site';
 import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
-import { getPageByUri, getPageBySlug } from 'lib/pages';
 
 import Layout from 'components/Layout';
 import Header from 'components/Header';
@@ -12,13 +11,9 @@ import Pagination from 'components/Pagination';
 
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ posts, pagination, page }) {
-  console.log('🏷️ page props:', page);
-  console.log('🏷️ page.pocetna:', page?.pocetna);
-
+export default function Home({ posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
-  const { title: heroTitle, text: heroText, imageUrl: heroImageUrl } = page?.pocetna || {};
 
   return (
     <Layout>
@@ -29,9 +24,7 @@ export default function Home({ posts, pagination, page }) {
             __html: title,
           }}
         />
-        {heroImageUrl && <img src={heroImageUrl} alt={heroTitle} />}
-        <h1>{heroTitle}</h1>
-        <p>{heroText}</p>
+
         <p
           className={styles.description}
           dangerouslySetInnerHTML={{
@@ -67,23 +60,9 @@ export default function Home({ posts, pagination, page }) {
 }
 
 export async function getStaticProps() {
-  // 1) Учитамо постове
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
-
-  // 2) Прво тражимо "/" по URI
-  let { page } = await getPageByUri('/');
-
-  // 3) Ако нема page, фоллбек на slug "pocetna-strana"
-  if (!page) {
-    console.warn('Page "/" not found, falling back to slug "pocetna-strana"');
-    ({ page } = await getPageBySlug('pocetna-strana'));
-  }
-
-  // 4) Уклонити све undefined вредности
-  const cleanPage = page ? JSON.parse(JSON.stringify(page)) : null;
-
   return {
     props: {
       posts,
@@ -91,7 +70,6 @@ export async function getStaticProps() {
         ...pagination,
         basePath: '/posts',
       },
-      page: cleanPage,
     },
   };
 }
