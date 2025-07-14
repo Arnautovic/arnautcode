@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 
 import useSite from 'hooks/use-site';
 import useSearch, { SEARCH_STATE_LOADED } from 'hooks/use-search';
@@ -8,9 +8,9 @@ import { postPathBySlug } from 'lib/posts';
 import { findMenuByLocation, MENU_LOCATION_NAVIGATION_DEFAULT } from 'lib/menus';
 
 import Section from 'components/Section';
-import NavListItem from 'components/NavListItem';
 
 import styles from './Nav.module.scss';
+import NavListItem from 'components/NavListItem';
 
 const SEARCH_VISIBLE = 'visible';
 const SEARCH_HIDDEN = 'hidden';
@@ -19,37 +19,68 @@ const Nav = () => {
   const formRef = useRef();
 
   const [searchVisibility, setSearchVisibility] = useState(SEARCH_HIDDEN);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const { metadata = {}, menus } = useSite();
   const { title } = metadata;
 
-  const navigationLocation =
-    process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || MENU_LOCATION_NAVIGATION_DEFAULT;
+  const navigationLocation = process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || MENU_LOCATION_NAVIGATION_DEFAULT;
   const navigation = findMenuByLocation(menus, navigationLocation);
 
   const { query, results, search, clearSearch, state } = useSearch({
     maxResults: 5,
   });
+
   const searchIsLoaded = state === SEARCH_STATE_LOADED;
 
-  const toggleMobileMenu = () => setMobileOpen((o) => !o);
+  // When the search visibility changes, we want to add an event listener that allows us to
+  // detect when someone clicks outside of the search box, allowing us to close the results
+  // when focus is drawn away from search
 
   useEffect(() => {
+    // If we don't have a query, don't need to bother adding an event listener
+    // but run the cleanup in case the previous state instance exists
+
     if (searchVisibility === SEARCH_HIDDEN) {
-      document.body.removeEventListener('click', handleOnDocumentClick, true);
+      removeDocumentOnClick();
       return;
     }
-    document.body.addEventListener('click', handleOnDocumentClick, true);
-    const searchInput = Array.from(formRef.current.elements).find(
-      (input) => input.type === 'search'
-    );
-    searchInput?.focus();
+
+    addDocumentOnClick();
+    addResultsRoving();
+
+    // When the search box opens up, additionall find the search input and focus
+    // on the element so someone can start typing right away
+
+    const searchInput = Array.from(formRef.current.elements).find((input) => input.type === 'search');
+
+    searchInput.focus();
+
     return () => {
-      document.body.removeEventListener('click', handleOnDocumentClick, true);
+      removeResultsRoving();
+      removeDocumentOnClick();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVisibility]);
+
+  /**
+   * addDocumentOnClick
+   */
+
+  function addDocumentOnClick() {
+    document.body.addEventListener('click', handleOnDocumentClick, true);
+  }
+
+  /**
+   * removeDocumentOnClick
+   */
+
+  function removeDocumentOnClick() {
+    document.body.removeEventListener('click', handleOnDocumentClick, true);
+  }
+
+  /**
+   * handleOnDocumentClick
+   */
 
   function handleOnDocumentClick(e) {
     if (!e.composedPath().includes(formRef.current)) {
@@ -58,31 +89,50 @@ const Nav = () => {
     }
   }
 
+  /**
+   * handleOnSearch
+   */
+
   function handleOnSearch({ currentTarget }) {
-    search({ query: currentTarget.value });
+    search({
+      query: currentTarget.value,
+    });
   }
+
+  /**
+   * handleOnToggleSearch
+   */
 
   function handleOnToggleSearch() {
     setSearchVisibility(SEARCH_VISIBLE);
   }
 
+  /**
+   * addResultsRoving
+   */
+
   function addResultsRoving() {
     document.body.addEventListener('keydown', handleResultsRoving);
   }
 
+  /**
+   * removeResultsRoving
+   */
+
   function removeResultsRoving() {
     document.body.removeEventListener('keydown', handleResultsRoving);
   }
+
+  /**
+   * handleResultsRoving
+   */
 
   function handleResultsRoving(e) {
     const focusElement = document.activeElement;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (
-        focusElement.nodeName === 'INPUT' &&
-        focusElement.nextSibling.children[0].nodeName !== 'P'
-      ) {
+      if (focusElement.nodeName === 'INPUT' && focusElement.nextSibling.children[0].nodeName !== 'P') {
         focusElement.nextSibling.children[0].firstChild.firstChild.focus();
       } else if (focusElement.parentElement.nextSibling) {
         focusElement.parentElement.nextSibling.firstChild.focus();
@@ -101,6 +151,12 @@ const Nav = () => {
     }
   }
 
+  /**
+   * escFunction
+   */
+
+  // pressing esc while search is focused will close it
+
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       clearSearch();
@@ -111,6 +167,7 @@ const Nav = () => {
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction, false);
+
     return () => {
       document.removeEventListener('keydown', escFunction, false);
     };
@@ -122,34 +179,14 @@ const Nav = () => {
       <Section className={styles.navSection}>
         <p className={styles.navName}>
           <Link href="/">
-            <img
-              src="/arnautcode-logo-min.svg"
-              alt={`${title} logo"`}
-              className={styles.navLogo}
-            />
+            <img src="/arnautcode-logo-min.svg" alt={`${title} logo`} className={styles.navLogo} />
           </Link>
         </p>
-
-        <button
-          className={styles.mobileToggle}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle navigation"
-        >
-          {mobileOpen ? <FaTimes /> : <FaBars />}
-        </button>
-
-        <ul className={`${styles.navMenu} ${mobileOpen ? styles.open : ''}`}>
+        <ul className={styles.navMenu}>
           {navigation?.map((listItem) => {
-            return (
-              <NavListItem
-                key={listItem.id}
-                className={styles.navSubMenu}
-                item={listItem}
-              />
-            );
+            return <NavListItem key={listItem.id} className={styles.navSubMenu} item={listItem} />;
           })}
         </ul>
-
         <div className={styles.navSearch}>
           {searchVisibility === SEARCH_HIDDEN && (
             <button onClick={handleOnToggleSearch} disabled={!searchIsLoaded}>
