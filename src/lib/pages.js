@@ -41,8 +41,21 @@ export async function getPageByUri(uri) {
 
   if (!pageData?.data.page) return { page: undefined };
 
+  // Sačuvaj rawPage za kasniju upotrebu (ACF polja)
+  const rawPage = pageData.data.page;
+
+  // Mapiranje osnovnih WP polja (featuredImage, parent, children)
+  // OVAJ RED NE DIRAJ
   const page = [pageData?.data.page].map(mapPageData)[0];
 
+  // Dodaj ACF grupu pod page.acf
+  page.acf = rawPage.pocetnastranafields || {};
+  if (page.acf.heroImage?.node?.sourceUrl) {
+    page.acf.heroImage = { sourceUrl: page.acf.heroImage.node.sourceUrl };
+  } else {
+    page.acf.heroImage = {};
+  }
+  
   // If the SEO plugin is enabled, look up the data
   // and apply it to the default settings
 
