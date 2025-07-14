@@ -2,6 +2,8 @@ import useSite from 'hooks/use-site';
 import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
 import { getPageByUri } from 'lib/pages';
+import { getPageBySlug } from 'lib/pages';
+
 
 import Layout from 'components/Layout';
 import Header from 'components/Header';
@@ -71,7 +73,13 @@ export async function getStaticProps() {
     queryIncludes: 'archive',
   });
 
-  const { page } = await getPageByUri('/');
+  let { page } = await getPageByUri('/');
+
+  if (!page) {
+    console.warn('Page "/" not found, falling back to slug "pocetna-strana"');
+    const fallback = await getPageBySlug('pocetna-strana');
+    ({ page } = fallback);
+  }
 
   const cleanPage = page ? JSON.parse(JSON.stringify(page)) : null;
 
