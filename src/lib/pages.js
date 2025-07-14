@@ -40,8 +40,6 @@ export async function getPageByUri(uri) {
   }
 
   if (!pageData?.data.page) return { page: undefined };
-    // Ako stranica ne postoji
-  if (!pageData?.data.page) return { page: undefined };
 
   // Sačuvaj rawPage za kasniju upotrebu (ACF polja)
   const rawPage = pageData.data.page;
