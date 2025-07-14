@@ -12,9 +12,10 @@ import Pagination from 'components/Pagination';
 
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ posts, pagination }) {
+export default function Home({ posts, pagination, page }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
+  const { title: heroTitle, text: heroText, imageUrl: heroImageUrl } = page?.pocetna || {};
 
   return (
     <Layout>
@@ -26,6 +27,10 @@ export default function Home({ posts, pagination }) {
           }}
         />
 
+         {heroImageUrl && <img src={heroImageUrl} alt={heroTitle} />}
+        <h1>{heroTitle}</h1>
+        <p>{heroText}</p>
+        
         <p
           className={styles.description}
           dangerouslySetInnerHTML={{
@@ -67,6 +72,8 @@ export async function getStaticProps() {
 
   const { page } = await getPageByUri('/');
 
+  const cleanPage = page ? JSON.parse(JSON.stringify(page)) : null;
+
   return {
     props: {
       posts,
@@ -74,7 +81,7 @@ export async function getStaticProps() {
         ...pagination,
         basePath: '/posts',
       },
-      page,
+      page: cleanPage,
     },
   };
 }
