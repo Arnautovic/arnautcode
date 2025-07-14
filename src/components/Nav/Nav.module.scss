@@ -244,3 +244,44 @@
     }
   }
 }
+
+
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  margin-left: auto;
+}
+
+.navMenu {
+  display: flex;
+  /* ...postojeći stilovi... */
+
+  &.open {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobileToggle {
+    display: block;
+  }
+  .navMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+  .navMenu.open {
+    display: flex;
+  }
+  .navSubMenu {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+}
