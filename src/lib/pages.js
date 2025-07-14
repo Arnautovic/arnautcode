@@ -104,10 +104,7 @@ export async function getAllPages(options = {}) {
   const data = await apolloClient.query({
     query: allPagesIncludesTypes[queryIncludes],
   });
-  const pages = data?.data.pages.edges
-  .map(({ node = {} }) => node)
-  .map(mapPageData);
-  return { pages };
+  const pages = data?.data.pages.edges.map(({ node = {} }) => node).map(mapPageData);
 }
 
 /**
