@@ -181,7 +181,6 @@ const Nav = () => {
           <Link href="/">
             <img
               src="/arnautcode-logo-min.svg"
-              alt="Arnautcode logo"
               alt={`${title} logo`}
               className={styles.navLogo}
             />
