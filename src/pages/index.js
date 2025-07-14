@@ -9,6 +9,7 @@ import Container from 'components/Container';
 import PostCard from 'components/PostCard';
 import Pagination from 'components/Pagination';
 import styles from 'styles/pages/Home.module.scss';
+export * from './pages'; 
 import { getPageByUri } from 'data/pages';
 export async function getStaticProps() {
   const { page } = await getPageByUri('/');
