@@ -21,8 +21,6 @@ export default function Home({ posts, pagination, homePage }) {
   console.log('homePage:', homePage);
   console.log('hero:', homePage?.pocetnastranafields);
 
-
-
   return (
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
