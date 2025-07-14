@@ -17,7 +17,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({page, posts, pagination }) {
+export default function Home({ page, posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
   const { heroTitle, heroText } = page.acf;
