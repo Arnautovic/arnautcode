@@ -8,12 +8,15 @@ import Section from 'components/Section';
 import Container from 'components/Container';
 import PostCard from 'components/PostCard';
 import Pagination from 'components/Pagination';
+import { getPageByUri } from 'data/pages';
+
 
 import styles from 'styles/pages/Home.module.scss';
 
 export default function Home({ posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
+  const { heroTitle, heroText, heroImage } = page.acf;
 
   return (
     <Layout>
@@ -25,6 +28,12 @@ export default function Home({ posts, pagination }) {
           }}
         />
 
+ <h1>{heroTitle}</h1>
+      <p>{heroText}</p>
+      {heroImage?.sourceUrl && (
+        <img src={heroImage.sourceUrl} alt={heroTitle} />
+      )}
+      
         <p
           className={styles.description}
           dangerouslySetInnerHTML={{
