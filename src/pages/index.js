@@ -32,8 +32,8 @@ export default function Home({ posts, pagination, homePage }) {
                 className="w-32 h-32 object-cover rounded-full mb-4"
               />
             )}
-<h1 className="text-3xl font-bold text-center" dangerouslySetInnerHTML={{ __html: hero.heroTitle }} />
-<div className="text-lg text-center mt-2" dangerouslySetInnerHTML={{ __html: hero.heroText }} />
+            <h1 className="text-3xl font-bold text-center" dangerouslySetInnerHTML={{ __html: hero.heroTitle }} />
+            <div className="text-lg text-center mt-2" dangerouslySetInnerHTML={{ __html: hero.heroText }} />
           </div>
         )}
 
