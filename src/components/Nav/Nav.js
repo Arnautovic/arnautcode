@@ -1,15 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
-
-
 import useSite from 'hooks/use-site';
 import useSearch, { SEARCH_STATE_LOADED } from 'hooks/use-search';
 import { postPathBySlug } from 'lib/posts';
 import { findMenuByLocation, MENU_LOCATION_NAVIGATION_DEFAULT } from 'lib/menus';
-
 import Section from 'components/Section';
-
 import styles from './Nav.module.scss';
 import NavListItem from 'components/NavListItem';
 
