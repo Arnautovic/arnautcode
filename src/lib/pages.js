@@ -17,6 +17,16 @@ export function pagePathBySlug(slug) {
   return `/${slug}`;
 }
 
+export async function getPageBySlug(slug) {
+  const apolloClient = getApolloClient();
+  const { data } = await apolloClient.query({
+    query: QUERY_PAGE_BY_SLUG,
+    variables: { slug },
+  });
+  if (!data.page) return { page: null };
+  return { page: mapPageData(data.page) };
+}
+
 /**
  * getPageByUri
  */
