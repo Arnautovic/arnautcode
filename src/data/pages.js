@@ -146,7 +146,6 @@ export const QUERY_PAGE_BY_SLUG = gql`
           }
         }
       }
-      featuredImage { /* ... */ }
     }
   }
 `;
