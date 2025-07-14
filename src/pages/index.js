@@ -18,8 +18,9 @@ export default function Home({ posts, pagination, homePage }) {
 
   // Povuci hero podatke iz homePage (ACF)
   const hero = homePage?.pocetnastranafields;
-  console.log("homePage:", homePage);
-  console.log("hero:", homePage?.pocetnastranafields);
+  console.log('homePage:', homePage);
+  console.log('hero:', homePage?.pocetnastranafields);
+
 
 
   return (
@@ -83,7 +84,7 @@ export async function getStaticProps() {
     queryIncludes: 'archive',
   });
   const { page: homePage } = await getPageByUri('/pocetna-strana/');
-  console.log("SSR homePage", homePage);
+  console.log('SSR homePage', homePage);
   return {
     props: {
       posts,
