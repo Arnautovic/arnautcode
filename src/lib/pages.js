@@ -55,7 +55,6 @@ export async function getPageByUri(uri) {
   } else {
     page.acf.heroImage = {};
   }
-  
   // If the SEO plugin is enabled, look up the data
   // and apply it to the default settings
 
