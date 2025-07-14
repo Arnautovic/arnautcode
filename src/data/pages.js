@@ -125,6 +125,18 @@ export const QUERY_PAGE_BY_URI = gql`
       slug
       title
       uri
+    }
+  }
+`;
+
+export const QUERY_PAGE_BY_SLUG = gql`
+  query PageBySlug($slug: String!) {
+    page(id: $slug, idType: SLUG) {
+      id
+      slug
+      uri
+      title
+      content
       pocetnastranafields {
         heroTitle
         heroText
@@ -134,6 +146,7 @@ export const QUERY_PAGE_BY_URI = gql`
           }
         }
       }
+      featuredImage { /* ... */ }
     }
   }
 `;
