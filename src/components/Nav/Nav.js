@@ -229,7 +229,7 @@ const Nav = () => {
                 )}
                 {results.length === 0 && (
                   <p>
-                    Sorry, not finding anything for <strong>{query}</strong>
+                    Izvinite, not finding anything for <strong>{query}</strong>
                   </p>
                 )}
               </div>
