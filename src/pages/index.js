@@ -1,5 +1,5 @@
 import useSite from 'hooks/use-site';
-//import { getPaginatedPosts } from 'lib/posts';
+import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
 
 import Layout from 'components/Layout';
@@ -8,19 +8,17 @@ import Section from 'components/Section';
 import Container from 'components/Container';
 import PostCard from 'components/PostCard';
 import Pagination from 'components/Pagination';
+
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ page, posts, pagination }) {
+export default function Home({ posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
-  const { heroTitle, heroText } = page.acf;
 
   return (
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
       <Header>
-        {heroTitle && <h1>{heroTitle}</h1>}
-        {heroText && <p>{heroText}</p>}
         <h1
           dangerouslySetInnerHTML={{
             __html: title,
@@ -59,4 +57,19 @@ export default function Home({ page, posts, pagination }) {
       </Section>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const { posts, pagination } = await getPaginatedPosts({
+    queryIncludes: 'archive',
+  });
+  return {
+    props: {
+      posts,
+      pagination: {
+        ...pagination,
+        basePath: '/posts',
+      },
+    },
+  };
 }
