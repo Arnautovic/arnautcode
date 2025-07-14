@@ -163,6 +163,15 @@ export function mapPageData(page = {}) {
     data.children = data.children.edges.map(({ node }) => node);
   }
 
+  if (data.pocetnastranafields) {
+    const { heroTitle, heroText, heroImage } = data.pocetnastranafields;
+    data.pocetna = {
+      title: heroTitle,
+      text: heroText,
+      // heroImage.node.sourceUrl je URL slike
+      imageUrl: heroImage?.node?.sourceUrl || null,
+    };
+  }
   return data;
 }
 
