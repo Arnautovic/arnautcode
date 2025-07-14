@@ -1,8 +1,8 @@
 import useSite from 'hooks/use-site';
 import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
-import { getPageByUri } from 'lib/pages';
-import { getPageBySlug } from 'lib/pages';
+import { getPageByUri, getPageBySlug } from 'lib/pages';
+
 
 import Layout from 'components/Layout';
 import Header from 'components/Header';
