@@ -10,7 +10,7 @@ import {
 
 /**
  * pagePathBySlug
-*/
+ */
 
 export function pagePathBySlug(slug) {
   return `/${slug}`;
