@@ -26,11 +26,9 @@ export default function Home({ posts, pagination, page }) {
             __html: title,
           }}
         />
-
-         {heroImageUrl && <img src={heroImageUrl} alt={heroTitle} />}
+        {heroImageUrl && <img src={heroImageUrl} alt={heroTitle} />}
         <h1>{heroTitle}</h1>
         <p>{heroText}</p>
-        
         <p
           className={styles.description}
           dangerouslySetInnerHTML={{
