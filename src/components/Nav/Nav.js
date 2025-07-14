@@ -187,10 +187,7 @@ const Nav = () => {
             <img src="/arnautcode-logo-min.svg" alt={`${title} logo`} className={styles.navLogo} />
           </Link>
         </p>
-        <button
-          className={styles.mobileToggle}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle navigation Arnautcode">
+        <button className={styles.mobileToggle} onClick={toggleMobileMenu} aria-label="Toggle navigation">
           {mobileOpen ? <FaTimes /> : <FaBars />}
         </button>
         <ul className={`${styles.navMenu} ${mobileOpen ? styles.open : ''}`}>
