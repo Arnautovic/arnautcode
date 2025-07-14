@@ -6,6 +6,7 @@ import {
   QUERY_ALL_PAGES,
   QUERY_PAGE_BY_URI,
   QUERY_PAGE_SEO_BY_URI,
+  QUERY_PAGE_BY_SLUG,
 } from 'data/pages';
 
 /**
