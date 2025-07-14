@@ -177,12 +177,9 @@ const Nav = () => {
   return (
     <nav className={styles.nav}>
       <Section className={styles.navSection}>
-        <p className={styles.navName}>
-<Link href="/">
+        <Link href="/">
           <img src="/arnautcode-logo-min.svg" alt="Arnautcode logo" className={styles.navLogo} />
         </Link>
-
-        </p>
         <ul className={styles.navMenu}>
           {navigation?.map((listItem) => {
             return <NavListItem key={listItem.id} className={styles.navSubMenu} item={listItem} />;
