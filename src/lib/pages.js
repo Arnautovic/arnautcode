@@ -105,8 +105,8 @@ export async function getAllPages(options = {}) {
     query: allPagesIncludesTypes[queryIncludes],
   });
   const pages = data?.data.pages.edges
-    .map(({ node = {} }) => node)
-    .map(mapPageData);
+  .map(({ node = {} }) => node)
+  .map(mapPageData);
   return { pages };
 }
 
