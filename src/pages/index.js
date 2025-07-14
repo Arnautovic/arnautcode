@@ -10,7 +10,6 @@ import PostCard from 'components/PostCard';
 import Pagination from 'components/Pagination';
 import styles from 'styles/pages/Home.module.scss';
 
-
 export default function Home({ page, posts, pagination }) {
   const { metadata = {} } = useSite();
   const { title, description } = metadata;
