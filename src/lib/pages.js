@@ -123,6 +123,15 @@ export async function getAllPages(options = {}) {
   });
 
   const pages = data?.data.pages.edges.map(({ node = {} }) => node).map(mapPageData);
+  
+  if (data.pocetnastranafields) {
+    const { heroTitle, heroText, heroImage } = data.pocetnastranafields;
+    data.pocetna = {
+      title: heroTitle,
+      text: heroText,
+      imageUrl: heroImage?.node?.sourceUrl || null,
+    };
+  }
 
   return {
     pages,
