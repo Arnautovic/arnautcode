@@ -125,6 +125,15 @@ export const QUERY_PAGE_BY_URI = gql`
       slug
       title
       uri
+      pocetnastranafields {
+        heroTitle
+        heroText
+        heroImage {
+          node {
+            sourceUrl
+          }
+        }
+      }
     }
   }
 `;
