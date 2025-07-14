@@ -1,5 +1,5 @@
 import useSite from 'hooks/use-site';
-import { getPaginatedPosts } from 'lib/posts';
+//import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
 
 import Layout from 'components/Layout';
