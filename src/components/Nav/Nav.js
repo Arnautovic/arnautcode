@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+
 
 import useSite from 'hooks/use-site';
 import useSearch, { SEARCH_STATE_LOADED } from 'hooks/use-search';
@@ -19,6 +21,10 @@ const Nav = () => {
   const formRef = useRef();
 
   const [searchVisibility, setSearchVisibility] = useState(SEARCH_HIDDEN);
+
+  // Mobile menu open state
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const toggleMobileMenu = () => setMobileOpen(o => !o);
 
   const { metadata = {}, menus } = useSite();
   const { title } = metadata;
@@ -182,7 +188,13 @@ const Nav = () => {
             <img src="/arnautcode-logo-min.svg" alt={`${title} logo`} className={styles.navLogo} />
           </Link>
         </p>
-        <ul className={styles.navMenu}>
+        <button
+          className={styles.mobileToggle}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle navigation">
+          {mobileOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        <ul className={`${styles.navMenu} ${mobileOpen ? styles.open : ''}`}>
           {navigation?.map((listItem) => {
             return <NavListItem key={listItem.id} className={styles.navSubMenu} item={listItem} />;
           })}
