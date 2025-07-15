@@ -4,17 +4,14 @@ import { getPageByUri } from 'lib/pages';
 import { WebsiteJsonLd } from 'lib/json-ld';
 
 import Layout from 'components/Layout';
-import Header from 'components/Header';
 import Section from 'components/Section';
 import Container from 'components/Container';
 import PostCard from 'components/PostCard';
-import Pagination from 'components/Pagination';
-
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ posts, pagination, homePage }) {
+export default function Home({ posts, homePage }) {
   const { metadata = {} } = useSite();
-  const { title, description } = metadata;
+  const { title } = metadata;
 
   // Povuci hero podatke iz homePage (ACF)
   const hero = homePage?.pocetnastranafields;
@@ -26,8 +23,8 @@ export default function Home({ posts, pagination, homePage }) {
       <WebsiteJsonLd siteTitle={title} />
        <Section>
         <Container>
-       <div className={styles.okvir}>
-      <div className={styles.levastrana}>
+    <div className={styles.okvir}>
+    <div className={styles.levastrana}>
         <h1
           dangerouslySetInnerHTML={{ __html: hero.heroTitle }}
         />
