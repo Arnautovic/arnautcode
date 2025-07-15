@@ -25,9 +25,9 @@ export default function Home({ posts, homePage }) {
         <Container>
           <div className={styles.okvir}>
             <div className={styles.levastrana}>
-              <h1 dangerouslySetInnerHTML={{ __html: hero.heroTitle }} />
-              <div dangerouslySetInnerHTML={{ __html: hero.heroText }} />
-            </div>
+                <h1 dangerouslySetInnerHTML={{ __html: hero.heroTitle }} />
+               <div dangerouslySetInnerHTML={{ __html: hero.heroText }} />
+                </div>
             <div className={styles.desnastrana}>
               {hero.heroImage?.node?.sourceUrl && (<img src={hero.heroImage.node.sourceUrl} alt="Hero" />
           )} </div>
