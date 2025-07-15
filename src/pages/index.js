@@ -24,55 +24,43 @@ export default function Home({ posts, pagination, homePage }) {
   return (
     <Layout>
       <WebsiteJsonLd siteTitle={title} />
-      <Header>
-        {hero && (
-          <div className="flex flex-col items-center mb-8">
-            {hero.heroImage?.node?.sourceUrl && (
-              <img
-                src={hero.heroImage.node.sourceUrl}
-                alt="Hero"
-                className="w-32 h-32 object-cover rounded-full mb-4"
-              />
-            )}
-            <h1 className="text-3xl font-bold text-center" dangerouslySetInnerHTML={{ __html: hero.heroTitle }} />
-            <div className="text-lg text-center mt-2" dangerouslySetInnerHTML={{ __html: hero.heroText }} />
-          </div>
-        )}
-
-        {/* Možeš izbaciti title/desc ako ne želiš duplikat */}
-        <h1
-          dangerouslySetInnerHTML={{
-            __html: title,
-          }}
-        />
-        <p
-          className={styles.description}
-          dangerouslySetInnerHTML={{
-            __html: description,
-          }}
-        />
-      </Header>
-
-      <Section>
+       <Section>
         <Container>
-          <h2 className="sr-only">Posts</h2>
-          <ul className={styles.posts}>
-            {posts.map((post) => (
-              <li key={post.slug}>
-                <PostCard post={post} />
-              </li>
-            ))}
-          </ul>
-          {pagination && (
-            <Pagination
-              addCanonical={false}
-              currentPage={pagination?.currentPage}
-              pagesCount={pagination?.pagesCount}
-              basePath={pagination?.basePath}
-            />
-          )}
+       <div className={styles.okvir}>
+      <div className={styles.levastrana}>
+        <h1
+          dangerouslySetInnerHTML={{ __html: hero.heroTitle }}
+        />
+        <div
+          dangerouslySetInnerHTML={{ __html: hero.heroText }}
+        />
+      </div>
+      <div className={styles.desnastrana}>
+        {hero.heroImage?.node?.sourceUrl && (
+          <img
+            src={hero.heroImage.node.sourceUrl}
+            alt="Hero"
+          />
+        )}
+      </div>
+    </div>
+    </Container>
+    </Section>
+
+     <Section>
+        <Container>
+          <h2 className={styles.Levastrana}>Posts</h2>
+            <div className={styles.posts}>
+              {posts.slice(0, 3).map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+            </div>
         </Container>
       </Section>
+
+
+ 
+
     </Layout>
   );
 }
